@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    username: dev
+    url: jdbc:sqlserver://192.168.1.16:1433;
+      databaseName=MedialogLog;
+      trustServerCertificate=true;
+      sendStringParametersAsUnicode=false;
+      applicationName=Log;
+      lockTimeout=5000;
+    password: dk6czvd
+  jpa:
+    properties:
+      hibernate:
+        format_sql: 'false'
+    show-sql: 'false'

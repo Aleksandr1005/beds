@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<head>
+    <meta charset="UTF-8" />
+    <title>Журнал</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/png" href="img/favicon.ico"/>
+
+    <script th:src='@{/js/util/moment.min.js}'></script>
+    <script th:src='@{/js/util/moment.locale.ru.js}'></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.14/dist/sweetalert2.all.min.js"></script>
+    <script th:inline="javascript">
+        let mode = [[${mode}]]
+        let patientId = [[${patientId}]]
+        let debtId = [[${debtId}]]
+        let object = [[${object}]]
+    </script>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+</head>
+<body>
+    <v-app id="app">
+        <v-main>
+            <v-container>
+                <h1 class="mb-7">Журнал</h1>
+
+                <v-row class="mb-0">
+                    <v-col cols="2">
+                        <v-menu
+                                v-model="datesMenu"
+                                :nudge-right="40"
+                                transition="scale-transition"
+                                :close-on-content-click="false"
+                                offset-y
+                                min-width="auto">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-text-field
+                                        v-model="datesRangeText"
+                                        label="Период"
+                                        prepend-icon="mdi-calendar"
+                                        readonly
+                                        outlined
+                                        v-bind="attrs"
+                                        color="#007A64"
+                                        @keyup.enter="search"
+                                        v-on="on"
+                                ></v-text-field>
+                            </template>
+                            <v-date-picker
+                                    v-model="dates"
+                                    range
+                                    locale="ru-ru"
+                                    color="#007A64">
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                        text
+                                        color="#007A64"
+                                        @click="datesMenu = false">
+                                    Ок
+                                </v-btn>
+
+                            </v-date-picker>
+                        </v-menu>
+                    </v-col>
+
+                    <v-col cols="10">
+                        <v-row>
+
+
+
+                            <v-col cols="2">
+                                <v-text-field
+                                        v-model="table"
+                                        label="Таблица"
+                                        @keyup.enter="search"
+                                        outlined
+                                        clearable
+                                        color="#007A64"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="2">
+                                <v-text-field
+                                        v-model="action"
+                                        label="Действие"
+                                        @keyup.enter="search"
+                                        outlined
+                                        clearable
+                                        color="#007A64"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="2">
+                                <v-text-field
+                                        v-model="object"
+                                        label="ФИО/название"
+                                        @keyup.enter="search"
+                                        outlined
+                                        clearable
+                                        color="#007A64"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="2">
+                                <v-text-field
+                                        v-model="data"
+                                        label="Содержание"
+                                        @keyup.enter="search"
+                                        outlined
+                                        clearable
+                                        color="#007A64"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="2">
+                                <v-text-field
+                                        v-model="employee"
+                                        label="Изменил"
+                                        @keyup.enter="search"
+                                        outlined
+                                        clearable
+                                        color="#007A64"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="2">
+                                <v-text-field
+                                        v-model="recordId"
+                                        label="№ записи"
+                                        @keyup.enter="search"
+                                        outlined
+                                        clearable
+                                        color="#007A64"
+                                ></v-text-field>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                </v-row>
+
+
+                <v-row class="mb-6" style="margin-top: -30px !important">
+                    <v-col cols="12" class="mt-0">
+                        <v-btn color="#007A64" block large dark @click="search">
+                            Поиск
+                        </v-btn>
+                    </v-col>
+                </v-row>
+
+                <v-data-table
+                        :headers="headers"
+                        :items="logs"
+                        :items-per-page="100"
+                        dense
+                        no-data-text="Нет данных"
+                        class="elevation-1 mt-5"
+                        :search="innerSearch"
+                        :footer-props="{
+                            'items-per-page-text': 'Кол-во на странице',
+                             'items-per-page-options': [100, 200, 300, 1000],
+                            'pageText': '{0}-{1} из {2}'}">
+                    <template v-slot:top>
+                        <v-text-field
+                                v-model="innerSearch"
+                                label="Поиск по полученным данным"
+                                class="mx-4"
+                        ></v-text-field>
+                    </template>
+
+                    <template v-slot:item.data="{ item }">
+                        <div style="white-space: pre-wrap;">{{ item.data }}</div>
+                    </template>
+
+                    <template v-slot:item.date="{ item }">
+                        {{ moment(item.dateTime).format('DD.MM.YYYY HH:mm:ss') }}
+                    </template>
+                </v-data-table>
+
+
+                <v-overlay :value="loader">
+                    <v-progress-circular
+                            indeterminate
+                            size="64"
+                    ></v-progress-circular>
+                </v-overlay>
+            </v-container>
+        </v-main>
+    </v-app>
+
+<script th:src="@{/js/log.js}"></script>
+
+</body>
+</html>
