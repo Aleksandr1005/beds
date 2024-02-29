@@ -11,29 +11,13 @@ import java.util.List;
 public interface LogRepository extends JpaRepository<Log, Long> {
     @Query("select log " +
             "from Log log " +
-            "where (:action is null or length(:action) = 0 or log.action like concat('%', :action, '%'))" +
-            "  and (:table is null or length(:table) = 0 or log.table like concat(:table,'%'))" +
+            "where (:palace is null or length(:palace) = 0 or log.palace like concat('%', :palace, '%'))" +
+            "  and (:bed is null or length(:bed) = 0 or log.bed like concat(:bed,'%'))" +
             "  and (:object is null or length(:object) = 0 or log.object like concat('%', :object,'%'))" +
-            "  and (:data is null or length(:data) = 0 or log.data like concat('%', :data,'%')) " +
-            "  and (:employee is null or length(:employee) = 0 or log.employee like concat(:employee, '%')) " +
-            "  and (:recordId is null or log.recordId = :recordId) " +
+            "  and (:status is null or length(:status) = 0 or log.status like concat('%', :data,'%')) " +
             "  and (log.dateTime between :dateTimeFrom and :dateTimeTo) " +
             "order by log.dateTime desc ")
-    List<Log> findAll(LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, String action, String table,
-                              String object, String employee, String data, Long recordId, Pageable pageable);
+    List<Log> findAll(LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, String palace, String bed,
+                              String object, String status, Pageable pageable);
 
-    @Query("select log " +
-            "from Log log " +
-            "where (log.table like 'Пациенты' and log.data like '%PRIMEHANIE%' and log.recordId = :patientId)" +
-            "   or (log.table like 'Примечание о долге' and log.recordId = :debtId) " +
-            " and (log.dateTime >= getdate() - 1900) " +
-            "order by log.dateTime desc")
-    List<Log> findNotes(Long patientId, Long debtId, Pageable pageable);
-
-    @Query("select log " +
-            "from Log log " +
-            "where log.table like 'Отправитель документов' and log.object like :object% " +
-            "and (log.dateTime >= getdate() - 1900) " +
-            "order by log.dateTime desc")
-    List<Log> findEmails(String object);
 }

@@ -16,21 +16,16 @@ public class Log {
     @Column(name = "DATE")
     private LocalDateTime dateTime;
 
-    @Column(name = "ACTION")
-    private String action;
+    @Column(name = "BED")
+    private String bed;
 
-    @Column(name = "TABLE_NAME")
-    private String table;
+    @Column(name = "PALACE")
+    private String palace;
 
-    @Column(name = "MEDECINS_NAME")
-    private String employee;
-
-    @Column(name = "REC_ID")
-    private Long recordId;
+    @Column(name = "STATUS")
+    private String status;
 
     @Column(name = "OBJ_NAME")
     private String object;
 
-    @Column(name = "LOG_DATA")
-    private String data;
 }

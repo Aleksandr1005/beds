@@ -11,10 +11,8 @@ public class LogRequestDto {
     private LocalDate dateFrom;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dateTo;
-    private String action;
-    private String table;
+    private String palace;
+    private String bed;
     private String object;
-    private String data;
-    private String employee;
-    private Long recordId;
+    private String status;
 }

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 <head>
     <meta charset="UTF-8" />
-    <title>Журнал</title>
+    <title>Учет коек в стационаре</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/png" href="img/favicon.ico"/>
 
@@ -27,7 +27,7 @@
     <v-app id="app">
         <v-main>
             <v-container>
-                <h1 class="mb-7">Журнал</h1>
+                <h1 style="text-align: center" class="mb-7">Учет коек в стационаре</h1>
 
                 <v-row class="mb-0">
                     <v-col cols="2">
@@ -75,8 +75,8 @@
 
                             <v-col cols="2">
                                 <v-text-field
-                                        v-model="table"
-                                        label="Таблица"
+                                        v-model="palace"
+                                        label="Палата"
                                         @keyup.enter="search"
                                         outlined
                                         clearable
@@ -85,8 +85,8 @@
                             </v-col>
                             <v-col cols="2">
                                 <v-text-field
-                                        v-model="action"
-                                        label="Действие"
+                                        v-model="bed"
+                                        label="Койка"
                                         @keyup.enter="search"
                                         outlined
                                         clearable
@@ -96,7 +96,7 @@
                             <v-col cols="2">
                                 <v-text-field
                                         v-model="object"
-                                        label="ФИО/название"
+                                        label="ФИО"
                                         @keyup.enter="search"
                                         outlined
                                         clearable
@@ -105,34 +105,15 @@
                             </v-col>
                             <v-col cols="2">
                                 <v-text-field
-                                        v-model="data"
-                                        label="Содержание"
+                                        v-model="status"
+                                        label="Статус"
                                         @keyup.enter="search"
                                         outlined
                                         clearable
                                         color="#007A64"
                                 ></v-text-field>
                             </v-col>
-                            <v-col cols="2">
-                                <v-text-field
-                                        v-model="employee"
-                                        label="Изменил"
-                                        @keyup.enter="search"
-                                        outlined
-                                        clearable
-                                        color="#007A64"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col cols="2">
-                                <v-text-field
-                                        v-model="recordId"
-                                        label="№ записи"
-                                        @keyup.enter="search"
-                                        outlined
-                                        clearable
-                                        color="#007A64"
-                                ></v-text-field>
-                            </v-col>
+
                         </v-row>
                     </v-col>
                 </v-row>

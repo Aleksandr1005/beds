@@ -18,15 +18,4 @@ public class LogRestController {
     public List<Log> findAll(@RequestBody LogRequestDto logRequestDto) {
         return logService.findAll(logRequestDto);
     }
-
-    @GetMapping("notes")
-    public List<Log> findNotes(@RequestParam(value = "patient_id", required = false) Long patientId,
-                               @RequestParam(value = "debt_id", required = false) Long debtId) {
-        return logService.findNotes(patientId, debtId);
-    }
-
-    @GetMapping("emails")
-    public List<Log> findEmails(@RequestParam(value = "object", required = false) String object) {
-        return logService.findEmails(object);
-    }
 }

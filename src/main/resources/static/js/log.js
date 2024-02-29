@@ -9,21 +9,17 @@ let app = new Vue({
 
         headers: [
             { text: 'Дата', value: 'date', width: '5%' },
-            { text: 'Таблица', value: 'table', width: '10%' },
-            { text: 'Действие', value: 'action', width: '10%' },
-            { text: 'ФИО/название', value: 'object', width: '15%' },
-            { text: 'Содержание', value: 'data', width: '35%'},
-            { text: 'Изменил', value: 'employee', width: '10%' },
-            { text: '№ записи', value: 'recordId', width: '5%' },
+            { text: 'Палата', value: 'palace', width: '10%' },
+            { text: 'Койка', value: 'bed', width: '10%' },
+            { text: 'ФИО', value: 'object', width: '15%' },
+            { text: 'Статус', value: 'status', width: '35%'},
         ],
 
         dates: [new Date().toISOString().split('T')[0], new Date().toISOString().split('T')[0]],
-        table: '',
-        action: '',
+        palace: '',
+        bed: '',
         object: '',
-        data: '',
-        employee: '',
-        recordId: '',
+        status: '',
         datesMenu: false,
 
         innerSearch: '',
@@ -43,12 +39,10 @@ let app = new Vue({
                     body: JSON.stringify({
                         dateFrom: (this.dates[0] ? this.dates[0] : new Date()),
                         dateTo: (this.dates[1] ? this.dates[1] : new Date()),
-                        action: this.action,
-                        table: this.table,
+                        palace: this.palace,
+                        bed: this.bed,
                         object: this.object,
-                        data: this.data,
-                        employee: this.employee,
-                        recordId: this.recordId,
+                        status: this.status,
                     })
                 })
                 .then(response => response.json())

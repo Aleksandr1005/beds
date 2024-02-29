@@ -18,17 +18,7 @@ public class LogService {
         return logRepository.findAll(
                 logRequestDto.getDateFrom().atTime(0, 0, 0),
                 logRequestDto.getDateTo().atTime(23, 59, 59),
-                logRequestDto.getAction(), logRequestDto.getTable(), logRequestDto.getObject(),
-                logRequestDto.getEmployee(), logRequestDto.getData(), logRequestDto.getRecordId(),
-                Pageable.ofSize(1000));
-    }
-
-    public List<Log> findNotes(Long patientId, Long debtId) {
-        return logRepository.findNotes(patientId, debtId, Pageable.ofSize(1000));
-    }
-
-
-    public List<Log> findEmails(String object) {
-        return logRepository.findEmails(object);
+                logRequestDto.getPalace(), logRequestDto.getBed(), logRequestDto.getObject(),
+                logRequestDto.getStatus(), Pageable.ofSize(1000));
     }
 }
